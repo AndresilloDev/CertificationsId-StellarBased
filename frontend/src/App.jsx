@@ -1,7 +1,11 @@
-import { AppRouter } from './routes/Router';
+import LoginForm from './pages/LoginPage/index'; 
 
 function App() {
-  return <AppRouter />;
+  return (
+    <div className="App">
+      <LoginForm />
+    </div>
+  );
 }
 
 export default App;
