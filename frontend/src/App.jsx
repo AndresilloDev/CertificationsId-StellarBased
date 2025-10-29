@@ -1,15 +1,7 @@
-import { useState } from 'react'
-import './App.css'
+import { AppRouter } from './routes/Router';
 
 function App() {
-
-  return (
-    <>
-      <p className="text-3xl font-bold underline text-blue-600">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  return <AppRouter />;
 }
 
-export default App
+export default App;
