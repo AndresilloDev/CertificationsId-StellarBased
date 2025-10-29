@@ -79,7 +79,6 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Right Column - Visual */}
           <div className="relative h-[600px] bg-gray-100 rounded-3xl flex items-center justify-center">
               
           </div>
