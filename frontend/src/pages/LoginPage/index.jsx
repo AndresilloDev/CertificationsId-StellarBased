@@ -1,7 +1,7 @@
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc'; // Icono de Google, necesitarás instalar react-icons
 
-const LoginForm = () => {
+const LoginPage = () => {
   // Manejadores de estado para el correo y la contraseña (opcional, pero buena práctica)
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -103,4 +103,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;

@@ -17,14 +17,15 @@ export const AppRouter = () => {
 
     return (
         <Routes>
-                <Route path="/" element={<LandingPage />} />
                 {isLoggedIn && (
                     <>
+
                     </>
                 )}
 
                 {!isLoggedIn && (
                     <>
+                        <Route path="/" element={<LandingPage />} />
                         <Route path="/login" element={<LoginPage />} />
                     </>
                 )}
