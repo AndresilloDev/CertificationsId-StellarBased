@@ -52,54 +52,85 @@ export default function RegisterPage() {
             </p>
 
             <form className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Correo electrónico
+                </label>
                 <input
-                  type="text"
-                  placeholder="Nombre"
+                  type="email"
+                  placeholder="Correo electrónico"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Apellido paterno"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Apellido materno"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-                />
-                <input
-                  type="date"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-600 focus:ring-2 focus:ring-green-500 focus:outline-none"
                 />
               </div>
 
-              <input
-                type="text"
-                placeholder="Dirección"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-              />
-              <input
-                type="tel"
-                placeholder="Teléfono móvil"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-              />
-              <input
-                type="email"
-                placeholder="Correo electrónico"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-              />
+              {/* Nombre y Apellidos en la misma línea */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nombre
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Apellidos
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Apellidos"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Dirección
+                </label>
                 <input
-                  type="password"
-                  placeholder="Contraseña"
+                  type="text"
+                  placeholder="Dirección"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Teléfono móvil
+                </label>
                 <input
-                  type="password"
-                  placeholder="Confirmar contraseña"
+                  type="tel"
+                  placeholder="Teléfono móvil"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
                 />
+              </div>
+
+              {/* Contraseña y Confirmar Contraseña */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Contraseña
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Contraseña"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Confirmar contraseña
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Confirmar contraseña"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  />
+                </div>
               </div>
 
               <button
@@ -139,9 +170,7 @@ export default function RegisterPage() {
                   />
                 </svg>
               </div>
-              <span className="text-3xl font-semibold text-green-900">
-                link
-              </span>
+              <span className="text-3xl font-semibold text-green-900">link</span>
             </div>
           </div>
         </div>

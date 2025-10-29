@@ -1,24 +1,20 @@
 import React from 'react';
-import { FcGoogle } from 'react-icons/fc'; // Icono de Google, necesitarás instalar react-icons
+import { FcGoogle } from 'react-icons/fc';
 
 const LoginPage = () => {
-  // Manejadores de estado para el correo y la contraseña (opcional, pero buena práctica)
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Iniciar sesión con:', { email, password });
-    // Aquí iría tu lógica de autenticación (ej: llamada a API)
   };
 
   const handleGoogleLogin = () => {
     console.log('Continuar con Google');
-    // Aquí iría tu lógica para iniciar sesión con Google
   };
 
   return (
-    // Contenedor principal para centrar la tarjeta de login
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       
       {/* Tarjeta de login - ANCHO MODIFICADO AQUÍ */}
@@ -77,26 +73,7 @@ const LoginPage = () => {
           </button>
         </form>
 
-        {/* Separador "o" */}
-        <div className="relative mt-6 mb-6">
-          <div className="absolute inset-0 flex items-center" aria-hidden="true">
-            <div className="w-full border-t border-gray-300" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">
-              o
-            </span>
-          </div>
-        </div>
 
-        {/* Botón Continuar con Google */}
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100 transition duration-150"
-        >
-          <FcGoogle className="w-5 h-5 mr-3" />
-          Continuar con Google
-        </button>
 
       </div>
     </div>
