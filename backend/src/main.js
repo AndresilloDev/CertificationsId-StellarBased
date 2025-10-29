@@ -1,22 +1,29 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import express from 'express';
+import cors from 'cors';
 
-const certificatesRoutes = require('./routes/certificates');
-const validationRoutes = require('./routes/validation');
+import authRoutes from './routes/auth.routes.js';
+import connectDB from './config/db.js';
+
+import dotenv from 'dotenv';
+dotenv.config();
+//import certificatesRoutes from './routes/certificates';
+//import validationRoutes from './routes/validation';
 
 const app = express();
 
+connectDB();
+
 // Middlewares
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Rutas
-app.use('/api/certificates', certificatesRoutes);
-app.use('/api/validation', validationRoutes);
+app.use('/api/auth', authRoutes);
+//app.use('/api/certificates', certificatesRoutes);
+//app.use('/api/validation', validationRoutes);
 
 // Puerto
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
 });
