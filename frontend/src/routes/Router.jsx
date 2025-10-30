@@ -11,11 +11,12 @@ import HomeUserPage from "../pages/HomeUserPage";
 import RecordUserPage from "../pages/RecordUserPage";
 import GuiaApi from "../pages/GuiaApi";
 import Certificates from "../pages/IssueCertificates";
+import HomeUser from "../pages/HomeUserPage";
 
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 export const AppRouter = () => {
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -26,7 +27,8 @@ export const AppRouter = () => {
         <Routes>
                 {isLoggedIn && (
                     <>
-
+                        <Route path="/UserDetails" element={<UserProfilePage />} />
+                        <Route path="/homeUser" element={<HomeUser />} /> 
                     </>
                 )}
 
@@ -34,7 +36,6 @@ export const AppRouter = () => {
                     <>
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/login" element={<LoginPage />} />
-                        <Route path="/UserDetails" element={<UserProfilePage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/homeEnterprise" element={<HomeEnterprise />} />
                         <Route path="/homeUser" element={<HomeUserPage />} />

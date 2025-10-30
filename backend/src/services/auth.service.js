@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const AuthService = {
     login: async (email, password_query) => {
         try {
+            console.log(email)
             const user = await User.findOne({ email });
             if (!user) {
                 throw new Error("Usuario no encontrado");
@@ -21,7 +22,7 @@ const AuthService = {
             const safeUser = user.toObject();
             delete safeUser.password;
 
-            return { ...safeUser, token };
+            return { user: safeUser, token };
 
         } catch (error) {
             console.error("Error en login:", error.message);
@@ -31,9 +32,9 @@ const AuthService = {
 
     register: async (userData) => {
         try {
-            const { email, password, firstName, lastName, birthDate, phone, address } = userData;
+            const { email, password, firstName, lastName } = userData;
 
-            if (!email || !password || !firstName || !lastName || !birthDate || !phone || !address) {
+            if (!email || !password || !firstName || !lastName) {
                 throw new Error("Faltan campos requeridos");
             }
 
@@ -52,7 +53,7 @@ const AuthService = {
             const safeUser = newUser.toObject();
             delete safeUser.password;
 
-            return { ...safeUser, token };
+            return { user: safeUser, token };
 
         } catch (error) {
             console.error("Error en registro:", error.message);
