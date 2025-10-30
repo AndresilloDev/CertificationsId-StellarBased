@@ -1,7 +1,9 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, symbol_short, vec, Address, Env, Map, String, Symbol, Vec};
 
-#[derive(Clone)]
+use soroban_sdk::{contract, contractimpl, contracttype, Address, Env, Map, String, Vec, symbol_short};
+
+#[contracttype]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Certificate {
     pub cert_id: String,
     pub issuer: Address,
@@ -17,7 +19,7 @@ pub struct CertificadosContract;
 
 #[contractimpl]
 impl CertificadosContract {
-    // 🧱 Función para emitir un nuevo certificado
+    // 🧱 Emitir un nuevo certificado
     pub fn emit_certificate(
         env: Env,
         cert_id: String,
@@ -29,9 +31,8 @@ impl CertificadosContract {
         // Solo el issuer puede firmar
         issuer.require_auth();
 
-        let mut storage = env.storage().persistent();
-
-        let key = Symbol::short("certs");
+        let storage = env.storage().persistent();
+        let key = symbol_short!("certs");
         let mut certs: Map<String, Certificate> =
             storage.get(&key).unwrap_or(Map::new(&env));
 
@@ -57,8 +58,8 @@ impl CertificadosContract {
     pub fn revoke_certificate(env: Env, issuer: Address, cert_id: String) {
         issuer.require_auth();
 
-        let key = Symbol::short("certs");
-        let mut storage = env.storage().persistent();
+        let storage = env.storage().persistent();
+        let key = symbol_short!("certs");
         let mut certs: Map<String, Certificate> =
             storage.get(&key).unwrap_or(Map::new(&env));
 
@@ -75,16 +76,16 @@ impl CertificadosContract {
 
     // 🔍 Verificar un certificado
     pub fn verify_certificate(env: Env, cert_id: String) -> Option<Certificate> {
-        let key = Symbol::short("certs");
         let storage = env.storage().persistent();
+        let key = symbol_short!("certs");
         let certs: Map<String, Certificate> = storage.get(&key).unwrap_or(Map::new(&env));
         certs.get(cert_id)
     }
 
-    // 📋 Obtener certificados de un usuario
+    // 📋 Obtener todos los certificados de un estudiante
     pub fn get_certificates_by_user(env: Env, student: Address) -> Vec<Certificate> {
-        let key = Symbol::short("certs");
         let storage = env.storage().persistent();
+        let key = symbol_short!("certs");
         let certs: Map<String, Certificate> = storage.get(&key).unwrap_or(Map::new(&env));
 
         let mut result = Vec::new(&env);
