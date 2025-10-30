@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 
 import authRoutes from './routes/auth.routes.js';
-import userRoutes from './routes/user.routes.js';
+import certificatesRoutes from './routes/certificates.routes.js';
+//import userRoutes from './routes/user.routes.js';
 import connectDB from './config/db.js';
 
 import dotenv from 'dotenv';
@@ -17,10 +18,12 @@ connectDB();
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // por si viene como form-urlencoded
 
 // Rutas
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/certificates', certificatesRoutes);
+//app.use('/api/users', userRoutes);
 //app.use('/api/certificates', certificatesRoutes);
 //app.use('/api/validation', validationRoutes);
 
