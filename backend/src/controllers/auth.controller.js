@@ -4,7 +4,10 @@ const AuthController = {
     login: async (req, res) => {
         const { email, password } = req.body;
         try {
-            const user = await AuthService.login(email, password);
+            let user = await AuthService.login(email, password);
+            if (!user) {
+                user = await AuthService.loginEnterprise(email, password);
+            }
             return res.status(200).json(user);
         } catch (error) {
             return res.status(500).json({
@@ -15,32 +18,52 @@ const AuthController = {
     },
 
     register: async (req, res) => {
-        const { 
-            email,
-            password,
-            confirmPassword,
-            firstName,
-            lastName,
-            phone,
-            address
-        } = req.body;
-        
-        if (password !== confirmPassword) {
-            return res.status(400).json({
-                message: "Las contraseñas no coinciden",
+        let user;
+        if (req.body.userType === 'enterprise') {
+            const {
+                email,
+                password,
+                enterpriseName,
+                contactName,
+                phone,
+                enterpriseSize
+            } = req.body;
+            user = await AuthService.registerEnterprise({
+                email,
+                password,
+                enterpriseName,
+                contactName,
+                phone,
+                enterpriseSize
             });
         }
+        if (req.body.userType === 'user') {
+            if (!req.body.password != !req.body.confirmPassword) {
+                return res.status(400).json({
+                    message: "Las contraseñas no coinciden",
+                });
+            }
 
-        try {
-            const user = await AuthService.register({
+            const {
                 email,
                 password,
                 firstName,
                 lastName,
+                address,
                 phone,
-                address
+                birthDate,
+            } = req.body;
+            user = await AuthService.register({
+                email,
+                password,
+                firstName,
+                lastName,
+                address,
+                phone,
+                birthDate,
             });
-
+        }
+        try {
             return res.status(201).json(user);
         } catch (error) {
             return res.status(500).json({

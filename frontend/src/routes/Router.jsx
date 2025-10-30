@@ -9,11 +9,12 @@ import HomeEnterprise from "../pages/HomeEnterprisePage";
 import RecordUserPage from "../pages/RecordUserPage";
 import GuiaApi from "../pages/GuiaApi";
 import Certificates from "../pages/IssueCertificates";
-
 import UserHomePage from "../pages/UserHomePage";
 import UserProfilePage from "../pages/UserProfilePage";
 
 import { useAuth } from "../context/AuthContext";
+import { JoinUsPage } from "../pages/JoinUsPage";
+import { ContactPage } from "../pages/ContactPage";
 
 export const AppRouter = () => {
     const { user } = useAuth();
@@ -35,8 +36,14 @@ export const AppRouter = () => {
                 {!isLoggedIn && (
                     <>
                         <Route path="/" element={<LandingPage />} />
+
+                        {/** Autenticación */}
                         <Route path="/login" element={<LoginPage />} />
+                        <Route path="/joinus" element={<JoinUsPage />} />
                         <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/contact" element={<ContactPage />} />
+
+
                         <Route path="/homeEnterprise" element={<HomeEnterprise />} />
                         <Route path="/recordUser" element={<RecordUserPage />} />
                         <Route path="/guiaApi" element={<GuiaApi />} />

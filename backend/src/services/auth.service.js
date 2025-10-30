@@ -1,4 +1,5 @@
 const User = require("../models/user.model.js");
+const Enterprise = require("../models/enterprise.model.js");
 const jwt = require("jsonwebtoken");
 
 const AuthService = {
@@ -66,6 +67,68 @@ const AuthService = {
             }
 
             throw new Error(error.message || "Error al registrar usuario");
+        }
+    },
+
+    registerEnterprise: async (enterpriseData) => {
+        console.log(enterpriseData)
+        try {
+            const { email, password, enterpriseName, contactName, phone, enterpriseSize } = enterpriseData;
+
+            console.log(enterpriseData)
+
+            if (!email || !password || !enterpriseName || !contactName || !phone || !enterpriseSize) {
+                throw new Error("Faltan campos requeridos para la empresa");
+            }
+
+            const existingEnterprise = await Enterprise.findOne({ email });
+            if (existingEnterprise) {
+                throw new Error("El correo ya está registrado");
+            }
+
+            const newEnterprise = new Enterprise({
+                email,
+                password,
+                enterpriseName,
+                contactName,
+                phone,
+                enterpriseSize
+            });
+            await newEnterprise.save();
+
+            const token = jwt.sign({ id: newEnterprise._id }, process.env.JWT_SECRET, {
+                expiresIn: "30d",
+            });
+
+            const safeEnterprise = newEnterprise.toObject();
+            delete safeEnterprise.password;
+
+            return { user: safeEnterprise, token };
+        } catch (error) {
+            console.error("Error en registro empresa:", error.message);
+            throw new Error(error.message || "Error al registrar empresa");
+        }
+    },
+
+    loginEnterprise: async (email, password_query) => {
+        try {
+            const enterprise = await Enterprise.findOne({ email });
+            if (!enterprise) {
+                throw new Error("Empresa no encontrada");
+            }
+            const isMatch = await enterprise.matchPassword(password_query);
+            if (!isMatch) {
+                throw new Error("Contraseña incorrecta");
+            }
+            const token = jwt.sign({ id: enterprise._id }, process.env.JWT_SECRET, {
+                expiresIn: "30d",
+            });
+            const safeEnterprise = enterprise.toObject();
+            delete safeEnterprise.password;
+            return { user: safeEnterprise, token };
+        } catch (error) {
+            console.error("Error en login empresa:", error.message);
+            throw new Error(error.message || "Error al iniciar sesión de empresa");
         }
     },
 };

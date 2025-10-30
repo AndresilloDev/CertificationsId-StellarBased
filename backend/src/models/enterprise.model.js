@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const userSchema = new mongoose.Schema({
-    firstName: {
+const enterpriseSchema = new mongoose.Schema({
+    enterpriseName: {
         type: String,
         required: true,
     },
-    lastName: {
+    contactName: {
         type: String,
         required: true,
     },
@@ -19,20 +19,19 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    },
-    address: {
-        type: String,
+        
     },
     phone: {
         type: String,
     },
-    birthDate: {
-        type: Date,
+    enterpriseSize: {
+        type: String,
+        enum: ["extra-small", "small", "medium", "large", "extra-large"],
     },
     role: {
         type: String,
-        enum: ["user"],
-        default: "user",
+        enum: ["enterprise"],
+        default: "enterprise",
     },
     createdAt: {
         type: Date,
@@ -41,7 +40,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Antes de guardar, encriptar contraseña
-userSchema.pre("save", async function (next) {
+enterpriseSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -49,8 +48,8 @@ userSchema.pre("save", async function (next) {
 });
 
 // Método para comparar contraseñas
-userSchema.methods.matchPassword = async function (enteredPassword) {
+enterpriseSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Enterprise", enterpriseSchema);
