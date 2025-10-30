@@ -7,6 +7,7 @@ const AuthService = {
         try {
             console.log(email)
             const user = await User.findOne({ email });
+            console.log("login: ", user)
             if (!user) {
                 throw new Error("Usuario no encontrado");
             }
@@ -86,14 +87,18 @@ const AuthService = {
                 throw new Error("El correo ya está registrado");
             }
 
-            const newEnterprise = new Enterprise({
+            const enterprise = {
                 email,
                 password,
                 enterpriseName,
                 contactName,
                 phone,
                 enterpriseSize
-            });
+            }
+
+            console.log("saving enterprise:", enterprise)
+
+            const newEnterprise = new Enterprise(enterprise);
             await newEnterprise.save();
 
             const token = jwt.sign({ id: newEnterprise._id }, process.env.JWT_SECRET, {
@@ -113,6 +118,7 @@ const AuthService = {
     loginEnterprise: async (email, password_query) => {
         try {
             const enterprise = await Enterprise.findOne({ email });
+            console.log("login enterprise: ", enterprise);
             if (!enterprise) {
                 throw new Error("Empresa no encontrada");
             }

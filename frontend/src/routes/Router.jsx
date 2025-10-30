@@ -32,6 +32,11 @@ export const AppRouter = () => {
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/user/profile" element={<UserProfilePage />} />
                         <Route path="/user/home" element={<UserHomePage />} />
+
+                        <Route path="/home/enterprise" element={<HomeEnterprise />} />
+                        <Route path="/recordUser" element={<RecordUserPage />} />
+                        <Route path="/guiaApi" element={<GuiaApi />} />
+                        <Route path="/certificates" element={<Certificates />} />
                     </>
                 )}
 
@@ -44,12 +49,6 @@ export const AppRouter = () => {
                         <Route path="/joinus" element={<JoinUsPage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/contact" element={<ContactPage />} />
-
-
-                        <Route path="/homeEnterprise" element={<HomeEnterprise />} />
-                        <Route path="/recordUser" element={<RecordUserPage />} />
-                        <Route path="/guiaApi" element={<GuiaApi />} />
-                        <Route path="/certificates" element={<Certificates />} />
                     </>
                 )}
                 
