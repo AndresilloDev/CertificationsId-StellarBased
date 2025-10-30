@@ -3,7 +3,7 @@
 version = 4
 
 [[package]]
-name = "CertificadosContract"
+name = "IdentityContract"
 version = "0.0.0"
 dependencies = [
  "soroban-sdk",

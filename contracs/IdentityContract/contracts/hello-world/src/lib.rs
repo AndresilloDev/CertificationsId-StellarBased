@@ -1,8 +1,9 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, symbol_short, Address, Env, Map, String, Symbol, Vec};
-0
+
+use soroban_sdk::{contract, contractimpl, contracttype, symbol_short, Address, Env, Map, String};
+
 #[contracttype]
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Entity {
     pub address: Address,
     pub role: String,          // STUDENT, INSTITUTION, COMPANY, ADMIN
@@ -18,35 +19,33 @@ pub struct IdentityContract;
 impl IdentityContract {
     // 📝 Registrar una nueva entidad (estudiante, institución o empresa)
     pub fn register_entity(
-        env: Env,
-        entity_address: Address,
-        role: String,
-        name: String,
-        metadata_hash: String,
-    ) {
-        // Solo el invocador puede autorizar el registro
-        env.invoker().require_auth();
+    env: Env,
+    entity_address: Address,
+    role: String,
+    name: String,
+    metadata_hash: String,
+) {
+    let key = symbol_short!("entities");
+    let storage = env.storage().persistent();
+    let mut entities: Map<Address, Entity> =
+        storage.get(&key).unwrap_or(Map::new(&env));
 
-        let key = symbol_short!("entities");
-        let mut storage = env.storage().persistent();
-        let mut entities: Map<Address, Entity> =
-            storage.get(&key).unwrap_or(Map::new(&env));
-
-        if entities.contains_key(entity_address.clone()) {
-            panic!("Entidad ya registrada");
-        }
-
-        let entity = Entity {
-            address: entity_address.clone(),
-            role,
-            name,
-            metadata_hash,
-            verified: true,
-        };
-
-        entities.set(entity_address, entity);
-        storage.set(&key, &entities);
+    if entities.contains_key(entity_address.clone()) {
+        panic!("Entidad ya registrada");
     }
+
+    let entity = Entity {
+        address: entity_address.clone(),
+        role,
+        name,
+        metadata_hash,
+        verified: true,
+    };
+
+    entities.set(entity_address, entity);
+    storage.set(&key, &entities);
+}
+
 
     // ✅ Verificar si una entidad está registrada y validada
     pub fn verify_entity(env: Env, entity_address: Address) -> bool {
