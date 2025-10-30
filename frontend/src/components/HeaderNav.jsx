@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Share2, LogOut, Menu, X } from 'lucide-react';
+import { LogOut, Menu, X } from 'lucide-react'; // Quité Share2 que ya no se usaba
 
 export default function HeaderNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // const { logout } = useAuth(); // Descomenta cuando tu AuthContext esté listo
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    navigate('/login'); // Redirige al login
+    navigate('/login');
   };
 
   const navLinks = [
-    { name: 'Home', href: '/home' },
-    { name: 'Certificados', href: '/certificados' },
-    { name: 'Historial', href: '/historial' },
-    { name: 'Perfil', href: '/perfil' },
+    { name: 'Home', href: '/user/home' },
+    { name: 'Perfil', href: '/user/profile' }
   ];
-
-  const activeClassName = "text-sm font-semibold text-green-700";
-  const inactiveClassName = "text-sm font-medium text-gray-600 hover:text-black transition-colors";
 
   return (
     <header className="border border-gray-200 m-4 lg:mx-16 rounded-xl sticky top-4 bg-white/80 backdrop-blur-lg z-10">
@@ -30,29 +24,50 @@ export default function HeaderNav() {
           <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
             I
           </div>
-        <Link
+          <Link
             to="/"
             className="text-xl md:text-2xl font-semibold text-center"
-            >
+          >
             Stellar Certification Protocol
-            </Link>
+          </Link>
         </div>
 
-        {/* Navegación de Escritorio */}
+        {/* Navegación de Escritorio (Modificada) */}
         <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <NavLink
               key={link.name}
               to={link.href}
-              className={({ isActive }) =>
-                isActive ? activeClassName : inactiveClassName
-              }
+              className="relative py-1" // Contenedor relativo para el subrayado
             >
-              {link.name}
+              {({ isActive }) => (
+                <>
+                  {/* El texto del link */}
+                  <span
+                    className={`text-sm font-medium transition-colors ${
+                      isActive
+                        // ¡CAMBIO! El texto activo ahora es negro y en negritas
+                        ? 'font-semibold text-black'
+                        : 'text-gray-600 hover:text-black'
+                    }`}
+                  >
+                    {link.name}
+                  </span>
+                  
+                  {/* El subrayado animado (Ahora es el indicador principal) */}
+                  <span
+                    className={`absolute bottom-[-2px] left-0 w-full h-[2px] bg-green-600
+                                transition-transform duration-300 ease-out
+                                ${isActive ? 'scale-x-100' : 'scale-x-0'}
+                                origin-left`}
+                  />
+                </>
+              )}
             </NavLink>
           ))}
         </div>
 
+        {/* Botón de Salir (Escritorio) */}
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={handleLogout}
@@ -60,12 +75,6 @@ export default function HeaderNav() {
           >
             <LogOut size={16} />
             Salir
-          </button>
-          <button
-            className="px-5 py-2.5 text-sm font-medium text-white bg-action rounded-lg hover:bg-action-hover hover:rounded-3xl duration-300 border border-none text-center flex items-center gap-2"
-          >
-            <Share2 size={16} />
-            Compartir
           </button>
         </div>
 
@@ -81,7 +90,7 @@ export default function HeaderNav() {
         </div>
       </div>
 
-      {/* Menú Desplegable (Móvil) */}
+      {/* Menú Desplegable (Móvil) - Sin cambios */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
           isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
@@ -95,7 +104,7 @@ export default function HeaderNav() {
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
                 `block w-full px-4 py-3 text-center text-sm font-medium rounded-lg border ${
-                  isActive
+                  isActive // Este es el "marcado en verde" que funciona bien en móvil
                     ? 'bg-green-50 text-green-700 border-green-200'
                     : 'text-black bg-secondary hover:bg-secondary-hover border-border'
                 }`
@@ -104,14 +113,13 @@ export default function HeaderNav() {
               {link.name}
             </NavLink>
           ))}
+
           <button
-            className="block w-full px-4 py-3 text-center text-sm font-medium text-white bg-action rounded-lg hover:bg-action-hover mt-2"
-          >
-            Compartir
-          </button>
-          <button
-            onClick={handleLogout}
-            className="block w-full px-4 py-3 text-center text-sm font-medium text-black bg-secondary rounded-lg hover:bg-secondary-hover border border-border"
+            onClick={() => {
+              setIsMenuOpen(false);
+              handleLogout();
+            }}
+            className="block w-full px-4 py-3 text-center text-sm font-medium text-black bg-secondary rounded-lg hover:bg-secondary-hover border border-border mt-2"
           >
             Cerrar Sesión
           </button>
