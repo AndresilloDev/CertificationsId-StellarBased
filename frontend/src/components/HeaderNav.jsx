@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { LogOut, Menu, X } from 'lucide-react'; // Quité Share2 que ya no se usaba
+import { LogOut, Menu, X } from 'lucide-react';
+// 1. Asegúrate de que la ruta al AuthContext sea correcta
+import { useAuth } from '../context/AuthContext'; 
 
 export default function HeaderNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
   const navigate = useNavigate();
+  // 2. Obtener la función 'logout' del contexto
+  const { logout } = useAuth(); 
 
   const handleLogout = () => {
+    // 3. Llamar a la función 'logout' del contexto
+    logout();
+    // Y luego redirigir
     navigate('/login');
   };
 
@@ -32,21 +38,19 @@ export default function HeaderNav() {
           </Link>
         </div>
 
-        {/* Navegación de Escritorio (Modificada) */}
+        {/* Navegación de Escritorio */}
         <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <NavLink
               key={link.name}
               to={link.href}
-              className="relative py-1" // Contenedor relativo para el subrayado
+              className="relative py-1"
             >
               {({ isActive }) => (
                 <>
-                  {/* El texto del link */}
                   <span
                     className={`text-sm font-medium transition-colors ${
                       isActive
-                        // ¡CAMBIO! El texto activo ahora es negro y en negritas
                         ? 'font-semibold text-black'
                         : 'text-gray-600 hover:text-black'
                     }`}
@@ -54,7 +58,6 @@ export default function HeaderNav() {
                     {link.name}
                   </span>
                   
-                  {/* El subrayado animado (Ahora es el indicador principal) */}
                   <span
                     className={`absolute bottom-[-2px] left-0 w-full h-[2px] bg-green-600
                                 transition-transform duration-300 ease-out
@@ -67,10 +70,10 @@ export default function HeaderNav() {
           ))}
         </div>
 
-        {/* Botón de Salir (Escritorio) */}
+        {/* Botón de Salir (Escritorio) - Ahora funciona */}
         <div className="hidden md:flex items-center gap-3">
           <button
-            onClick={handleLogout}
+            onClick={handleLogout} // <--- Esta función ya está actualizada
             className="px-5 py-2.5 text-sm font-medium text-black bg-secondary rounded-lg hover:bg-secondary-hover hover:rounded-3xl duration-300 border border-border text-center flex items-center gap-2"
           >
             <LogOut size={16} />
@@ -90,7 +93,7 @@ export default function HeaderNav() {
         </div>
       </div>
 
-      {/* Menú Desplegable (Móvil) - Sin cambios */}
+      {/* Menú Desplegable (Móvil) */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
           isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
@@ -104,7 +107,7 @@ export default function HeaderNav() {
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
                 `block w-full px-4 py-3 text-center text-sm font-medium rounded-lg border ${
-                  isActive // Este es el "marcado en verde" que funciona bien en móvil
+                  isActive
                     ? 'bg-green-50 text-green-700 border-green-200'
                     : 'text-black bg-secondary hover:bg-secondary-hover border-border'
                 }`
@@ -114,10 +117,11 @@ export default function HeaderNav() {
             </NavLink>
           ))}
 
+          {/* Botón de Salir (Móvil) - Ahora funciona */}
           <button
             onClick={() => {
               setIsMenuOpen(false);
-              handleLogout();
+              handleLogout(); // <--- Esta función ya está actualizada
             }}
             className="block w-full px-4 py-3 text-center text-sm font-medium text-black bg-secondary rounded-lg hover:bg-secondary-hover border border-border mt-2"
           >

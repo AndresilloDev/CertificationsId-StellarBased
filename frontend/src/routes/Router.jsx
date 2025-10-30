@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
-import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/404Page";
 import RegisterPage from "../pages/RegisterPage";
@@ -9,6 +8,8 @@ import HomeEnterprise from "../pages/HomeEnterprisePage";
 import RecordUserPage from "../pages/RecordUserPage";
 import GuiaApi from "../pages/GuiaApi";
 import Certificates from "../pages/IssueCertificates";
+
+import LandingPage from "../pages/LandingPage";
 import UserHomePage from "../pages/UserHomePage";
 import UserProfilePage from "../pages/UserProfilePage";
 
@@ -28,6 +29,7 @@ export const AppRouter = () => {
         <Routes>
                 {isLoggedIn && (
                     <>
+                        <Route path="/" element={<LandingPage />} />
                         <Route path="/user/profile" element={<UserProfilePage />} />
                         <Route path="/user/home" element={<UserHomePage />} />
                     </>
