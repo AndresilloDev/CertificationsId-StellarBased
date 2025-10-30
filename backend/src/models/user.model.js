@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
     },
+    publicKey: {
+        type: String,
+    },
     birthDate: {
         type: Date,
     },

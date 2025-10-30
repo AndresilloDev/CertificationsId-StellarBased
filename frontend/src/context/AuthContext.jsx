@@ -2,10 +2,12 @@ import { createContext, useState, useMemo, useEffect, useContext } from 'react';
 // 1. Asumo que tu archivo de API exporta la instancia de axios
 //    (Si no lo hace, deberías crear un archivo api/axios.js que la exporte)
 import { api, login as api_login, register as api_register } from '../api/auth.api';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   // Opcional, pero recomendado:
   const [loading, setLoading] = useState(true);
@@ -24,7 +26,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (credentials) => {
-    try {
+  try {
       const response = await api_login(credentials);
       console.log("Login response:", response);
 
@@ -34,6 +36,13 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       localStorage.setItem("token", response.data.token);
+      
+      if (response.data.user.userType === "enterprise" || response.data.user.role === "enterprise") {
+        navigate("/home/enterprise");
+        return;
+      }
+
+      navigate("/user/home");
     } catch (error) {
       console.error("Error en login:", error.response?.data?.message || error.message);
       throw error;
