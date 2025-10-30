@@ -1,10 +1,8 @@
-// 1. Importar hooks de React y el contexto
 import React, { useState, useEffect } from 'react';
 import { User } from 'lucide-react';
 import HeaderNav from '../../components/HeaderNav';
-import { useAuth } from '../../context/AuthContext'; // <--- LA CLAVE
+import { useAuth } from '../../context/AuthContext';
 
-// 2. StyledInputField (Sin cambios)
 const StyledInputField = ({ label, id, name, type = 'text', value, onChange, readOnly = false }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -28,13 +26,8 @@ const StyledInputField = ({ label, id, name, type = 'text', value, onChange, rea
 );
 
 export default function UserProfile() {
-  // 3. Obtener el usuario del contexto
-  // === MODIFICACIÓN AQUÍ ===
-  // Asumimos que tu AuthContext provee el 'token' y una función 'setUser' 
-  // para actualizar el estado global del usuario.
   const { user, loading, token, setUser } = useAuth();
 
-  // 4. Estado local del formulario (Sin cambios)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -43,11 +36,9 @@ export default function UserProfile() {
     email: ''
   });
 
-  // === NUEVO ESTADO PARA FEEDBACK ===
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  // 5. Rellenar el formulario cuando el 'user' del contexto cargue (Sin cambios)
   useEffect(() => {
     if (user) {
       setFormData({
@@ -58,9 +49,8 @@ export default function UserProfile() {
         email: user.email || ''
       });
     }
-  }, [user]); // Este efecto se dispara cada vez que 'user' cambia
+  }, [user]);
 
-  // 6. Handler genérico para actualizar el estado del formulario (Sin cambios)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
@@ -69,13 +59,11 @@ export default function UserProfile() {
     }));
   };
 
-  // === MODIFICACIÓN EN HANDLESUBMIT ===
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSaving(true);
-    setMessage({ type: '', text: '' }); // Limpiar mensajes previos
+    setMessage({ type: '', text: '' });
 
-    // Excluimos el email porque es readOnly y no lo actualizamos
     const { email, ...updateData } = formData;
 
     try {
@@ -83,26 +71,21 @@ export default function UserProfile() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // ¡Aquí usamos el token!
+          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(updateData) // Enviamos solo los datos a actualizar
+        body: JSON.stringify(updateData) 
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        // Si el servidor envía un error (ej: 401, 404, 500)
         throw new Error(data.message || 'Error al actualizar el perfil');
       }
 
-      // ¡ÉXITO!
-      // 1. Actualizar el estado global de AuthContext
       setUser(data); 
-      // 2. Mostrar mensaje de éxito
       setMessage({ type: 'success', text: '¡Perfil guardado con éxito!' });
       
     } catch (error) {
-      // Si hay un error de red o del servidor
       setMessage({ type: 'error', text: error.message });
     } finally {
       setIsSaving(false);
@@ -112,10 +95,8 @@ export default function UserProfile() {
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
     console.log('Contraseña actualizada');
-    // Aquí iría la lógica para el formulario de contraseña
   };
 
-  // 7. Mostrar "Cargando..." (Sin cambios)
   if (loading) {
     return (
       <div className="min-h-screen bg-white">
@@ -132,22 +113,9 @@ export default function UserProfile() {
       <HeaderNav />
 
       <main className="max-w-7xl mx-auto px-4 py-12 md:py-24">
-        
-        <div className="flex items-center gap-4 mb-10">
-          <User className="w-16 h-16 text-gray-300" />
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Tu Perfil</h1>
-            <p className="text-lg text-gray-600">
-              Actualiza tus datos y gestiona tu contraseña.
-            </p>
-          </div>
-        </div>
-
-        {/* 9. Formulario conectado al estado 'formData' */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <h2 className="text-2xl font-semibold text-gray-800">Información Personal</h2>
 
-          {/* === NUEVO: Contenedor para mensajes de éxito o error === */}
           {message.text && (
             <div className={`p-4 rounded-lg ${
               message.type === 'success' 
@@ -202,8 +170,6 @@ export default function UserProfile() {
           <div className="flex justify-end pt-4">
             <button
               type="submit"
-              // === MODIFICACIÓN AQUÍ ===
-              // Deshabilitar el botón mientras se guarda
               disabled={isSaving}
               className={`
                 px-6 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg 
@@ -211,7 +177,6 @@ export default function UserProfile() {
                 ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}
               `}
             >
-              {/* === MODIFICACIÓN AQUÍ === */}
               {isSaving ? 'Guardando...' : 'Guardar Información'}
             </button>
           </div>
@@ -219,7 +184,6 @@ export default function UserProfile() {
 
         <hr className="my-12 border-gray-200" />
 
-        {/* Formulario de Contraseña (Sin cambios) */}
         <form onSubmit={handlePasswordSubmit} className="space-y-6">
           <h2 className="text-2xl font-semibold text-gray-800">Cambiar contraseña</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
