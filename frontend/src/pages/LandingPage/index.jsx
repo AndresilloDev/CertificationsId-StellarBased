@@ -40,9 +40,19 @@ export default function LandingPage() {
               </button>
             </div>
           </div>
-          <div className="relative h-[300px] sm:h-[400px] lg:h-[600px] bg-gray-100 rounded-3xl flex items-center justify-center">
-            Video ejemplificativo
-          </div>
+          <div className="relative h-[300px] sm:h-[400px] lg:h-[600px] bg-gray-100 rounded-3xl flex items-center justify-center overflow-hidden">
+  <video
+    className="w-full h-full object-cover rounded-3xl"
+    src="https://cdn.pixabay.com/video/2023/08/01/174086-850404739_large.mp4"
+    controls
+    muted
+    loop
+    autoPlay
+  >
+    Tu navegador no soporta el elemento de video.
+  </video>
+</div>
+
         </div>
       </main>
     </div>

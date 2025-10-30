@@ -16,7 +16,7 @@ export default function Header() {
                         to="/"
                         className="text-xl md:text-2xl font-semibold text-center"
                     >
-                        Stellar Certification Protocol
+                        BlockTrust
                     </Link>
                 </div>
 
