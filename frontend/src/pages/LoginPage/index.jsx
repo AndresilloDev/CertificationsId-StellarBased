@@ -1,83 +1,97 @@
-import React from 'react';
-import { FcGoogle } from 'react-icons/fc';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Mail, Lock } from "lucide-react";
+import Header from "../../components/Header";
 
-const LoginPage = () => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+export default function LoginPage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Iniciar sesión con:', { email, password });
+    console.log("Iniciando sesión con:", { email, password });
   };
 
   const handleGoogleLogin = () => {
-    console.log('Continuar con Google');
+    console.log("Continuar con Google");
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      
-      {/* Tarjeta de login - ANCHO MODIFICADO AQUÍ */}
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl transition-all duration-300 hover:shadow-3xl">
-        
-        <h1 className="text-2xl font-semibold text-gray-900">Iniciar sesión</h1>
-        <p className="text-sm text-gray-500 mb-6">Accede a tu espacio personal</p>
+    <div className="min-h-screen bg-white">
+      <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          
-          {/* Campo Correo electrónico */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Correo electrónico
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Escribe tu correo electrónico aquí..."
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-black transition duration-150"
-            />
+      <main className="flex items-center justify-center py-12 md:py-24 px-4">
+        <div className="w-full max-w-md p-8 md:p-10 border border-gray-200 rounded-xl bg-white">
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+              Bienvenido de nuevo
+            </h1>
+            <p className="text-base text-gray-600 mt-2">
+              Accede a tu cuenta para continuar.
+            </p>
           </div>
 
-          {/* Campo Contraseña */}
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Escribe tu contraseña aquí..."
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-black transition duration-150"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-5 mt-8">
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Mail size={20} />
+              </span>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu.correo@ejemplo.com"
+                required
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+              />
+            </div>
 
-          {/* ¿Olvidaste tu contraseña? */}
-          <div className="text-right pt-1 pb-4">
-            <a href="#" className="text-sm text-gray-600 hover:text-black transition duration-150">
-              ¿Olvidaste tu contraseña?
-            </a>
-          </div>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Lock size={20} />
+              </span>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Contraseña"
+                required
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+              />
+            </div>
 
-          {/* Botón Iniciar sesión */}
-          <button
-            type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition duration-150"
-          >
-            Iniciar sesión
-          </button>
-        </form>
+            <div className="text-right">
+              <Link
+                to="/recover-password"
+                className="text-sm font-medium text-gray-600 hover:text-black transition-colors duration-200"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
 
+            <button
+              type="submit"
+              className="w-full px-6 py-3 text-base font-medium text-white bg-action rounded-lg hover:bg-action-hover hover:rounded-3xl duration-300 border border-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+            >
+              Iniciar sesión
+            </button>
+          </form>
 
-
-      </div>
+          {/* Link a Registrarse */}
+          <p className="text-center text-sm text-gray-600 mt-8">
+            ¿No tienes una cuenta?{" "}
+            <Link
+              to="/register"
+              className="font-medium text-black hover:underline"
+            >
+              Regístrate aquí
+            </Link>
+          </p>
+        </div>
+      </main>
     </div>
   );
-};
-
-export default LoginPage;
+}
