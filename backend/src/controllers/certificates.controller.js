@@ -40,15 +40,21 @@ const CertificatesController = {
           console.error(`Error ejecutando contrato: ${error.message}`);
           return res.status(500).json({ message: "Error al emitir certificado", error: error.message });
         }
-        if (stderr) {
-          console.error(`STDERR: ${stderr}`);
-        }
 
+        if (stderr) { 
+          console.error(`STDERR: ${stderr}`); 
+        } 
+        
         console.log(`STDOUT: ${stdout}`);
+
+        const match = stderr.match(/([a-f0-9]{64})/); // Busca el hash de 64 caracteres
+        const txHash = match ? match[1] : null;
+
         return res.status(200).json({
-          message: "Certificado emitido",
+          message: `Certificado emitido`,
           data: {
             cert_id,
+            txHash: txHash,
             stdout: stdout,
             student: studentPublicKey,
             issuer: issuerPublicKey,

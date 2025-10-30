@@ -75,7 +75,7 @@ export default function EmitCertificatePage() {
       setLoading(true);
       const result = await emitCertificate({ studentEmail, trackingCode, issueDate });
       console.log("Certificado emitido:", result.data);
-      alert("Certificado emitido correctamente, codigo: " + result.data.stdout);
+      alert("Certificado emitido correctamente con codigo: " + result.data.data.txHash);
     } catch (error) {
       console.error(error);
       alert("Error al emitir certificado");
