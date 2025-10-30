@@ -116,29 +116,9 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Grid: Fecha de Nacimiento y Teléfono */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {/* Input: Fecha de Nacimiento (DatePicker) */}
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10">
-                  <Calendar size={20} />
-                </span>
-                <DatePicker
-                  selected={formData.birthday}
-                  onChange={onDateChange}
-                  placeholderText="Fecha de nacimiento"
-                  dateFormat="dd/MM/yyyy"
-                  showYearDropdown
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={100}
-                  maxDate={new Date()}
-                  required
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
-                  wrapperClassName="w-full"
-                />
-              </div>
-
-              {/* Input: Teléfono */}
+            {/* Grid: Teléfono */}
+            <div className="grid grid-cols-1 sm:grid-cols-1 gap-5">
+              {/* Input: Fecha de Nacimiento */}
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                   <Phone size={20} />
