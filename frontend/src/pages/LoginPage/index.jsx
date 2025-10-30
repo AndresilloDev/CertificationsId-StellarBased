@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
 import Header from "../../components/Header";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const { login } = useContext(AuthContext);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Iniciando sesión con:", { email, password });
-  };
-
-  const handleGoogleLogin = () => {
-    console.log("Continuar con Google");
+    try {
+      await login({ email, password });
+      console.log("Inicio de sesión exitoso");
+      navigate("/homeUser");
+    } catch (error) {
+      console.error("Error en inicio de sesión:", error);
+    }
   };
 
   return (

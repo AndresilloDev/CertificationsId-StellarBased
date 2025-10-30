@@ -1,9 +1,10 @@
 // src/pages/RegisterPage/index.jsx
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, User, Home, Phone } from "lucide-react";
 import Header from "../../components/Header"; // Asumiendo esta ruta
+import { useAuth } from "../../context/AuthContext";
 
 export default function RegisterPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,6 +18,10 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
 
+  const navigate = useNavigate();
+
+  const { register } = useAuth();
+
   // Handler genérico para actualizar el estado
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,11 +31,11 @@ export default function RegisterPage() {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       console.error("Las contraseñas no coinciden");
-      // TODO: Mostrar error al usuario
       return;
     }
     console.log("Registrando usuario con:", formData);
-    // TODO: Lógica de API (axios.post)
+    register(formData); 
+    navigate("/homeUser");
   };
 
   return (
