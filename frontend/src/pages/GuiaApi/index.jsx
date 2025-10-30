@@ -39,7 +39,7 @@ export default function APIGuidePage() {
             </svg>
           </div>
           <span className="text-2xl font-semibold text-gray-800">
-            Stellar Protocol
+            Stellar Certification Protocol
           </span>
         </div>
 
