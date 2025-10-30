@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (credentials) => {
-    try {
+  try {
       const response = await api_login(credentials);
       console.log("Login response:", response);
 
