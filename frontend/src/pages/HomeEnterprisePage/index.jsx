@@ -3,6 +3,7 @@ import React from 'react';
 import { AcademicCapIcon, BoltIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 // Íconos de la nueva barra de navegación (Lucide)
 import { User, Share2, Home, FileText, Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 // Componente para las tarjetas de métricas (Número de certificados, categorías, etc.)
 const MetricCard = ({ title, value, icon: IconComponent, colorClass = 'text-gray-900' }) => (
@@ -17,6 +18,7 @@ const MetricCard = ({ title, value, icon: IconComponent, colorClass = 'text-gray
 );
 
 export default function CertificationsDashboard() {
+  const navigate = useNavigate();
 
   // Aquí puedes simular datos reales de tu API
   const metrics = [
@@ -47,8 +49,14 @@ export default function CertificationsDashboard() {
         </div>
 
         <nav className="flex items-center gap-6">
-          {/* Botón ACTIVO para esta página (Dashboard/Certificados) */}
           <button className="flex items-center gap-2 text-sm font-semibold text-green-700 border-b-2 border-green-700 pb-1">
+            <Home size={18} /> Home
+          </button>
+
+          {/* Botón ACTIVO para esta página (Dashboard/Certificados) */}
+          <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-green-700"
+            onClick={() => navigate("/certificates")}
+          >
             <FileText size={18} /> Certificados
           </button>
           {/* Botón para la vista de Emisión (Tu index.jsx) */}
