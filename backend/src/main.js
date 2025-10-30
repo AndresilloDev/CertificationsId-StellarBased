@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import authRoutes from './routes/auth.routes.js';
+import userRoutes from './routes/user.routes.js';
 import connectDB from './config/db.js';
 
 import dotenv from 'dotenv';
@@ -19,6 +20,7 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 //app.use('/api/certificates', certificatesRoutes);
 //app.use('/api/validation', validationRoutes);
 
