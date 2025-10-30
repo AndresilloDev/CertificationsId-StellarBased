@@ -1,178 +1,228 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Mail, Lock, User, Home, Phone, Calendar } from "lucide-react";
+import Header from "../../components/Header";
+
+import DatePicker from "react-datepicker";
+
 export default function RegisterPage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    birthday: null,
+    address: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  // Handler genérico para inputs de texto
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handler específico para el DatePicker
+  const onDateChange = (date) => {
+    setFormData({ ...formData, birthday: date });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      console.error("Las contraseñas no coinciden");
+      return;
+    }
+    // El 'formData.birthday' será un objeto Date de JavaScript.
+    // Parala API (convertirlo a ISO string)
+    console.log("Registrando usuario con:", {
+      ...formData,
+      birthday: formData.birthday ? formData.birthday.toISOString() : null,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border border-gray-200 m-4 rounded-xl">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={3}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </div>
-            <span className="text-2xl font-semibold text-header">
-              Stellar Certification Protocol
-            </span>
-          </div>
-
-          {/* Navigation */}
-          <div className="flex items-center gap-3">
-            <button className="px-6 py-2.5 text-sm font-medium text-gray-700 bg-gray-50 rounded-full hover:bg-gray-200 transition-colors">
-              For businesses
-            </button>
-            <button className="px-6 py-2.5 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">
-              Log in
-            </button>
-            <button className="px-6 py-2.5 text-sm font-medium text-white bg-black rounded-full hover:bg-gray-800 transition-colors">
-              Sign up
-            </button>
-          </div>
-        </div>
-      </header>
+      <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Registration Form */}
-          <div className="space-y-8">
-            <h1 className="text-5xl font-bold text-gray-900">Crea tu cuenta</h1>
-            <p className="text-lg text-gray-700">
-              Regístrate para acceder al sistema Stellar Certification Protocol.
+      <main className="flex items-center justify-center py-12 md:py-20 px-4">
+        {/* Form Box - max-w-2xl */}
+        <div className="w-full max-w-2xl p-8 md:p-10 border border-gray-200 rounded-xl bg-white">
+          {/* Title */}
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+              Crea tu cuenta
+            </h1>
+            <p className="text-base text-gray-600 mt-2">
+              Únete para empezar a certificar.
             </p>
+          </div>
 
-            <form className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Correo electrónico
-                </label>
-                <input
-                  type="email"
-                  placeholder="Correo electrónico"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-                />
-              </div>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5 mt-8">
+            {/* Input: Email (Full width) */}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Mail size={20} />
+              </span>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={onChange}
+                placeholder="Correo electrónico"
+                required
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+              />
+            </div>
 
-              {/* Nombre y Apellidos en la misma línea */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Nombre
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Nombre"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Apellidos
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Apellidos"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Dirección
-                </label>
+            {/* Grid: Nombre y Apellidos */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Input: Nombre */}
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <User size={20} />
+                </span>
                 <input
                   type="text"
-                  placeholder="Dirección"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={onChange}
+                  placeholder="Nombre"
+                  required
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Teléfono móvil
-                </label>
+              {/* Input: Apellidos */}
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <User size={20} />
+                </span>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={onChange}
+                  placeholder="Apellidos"
+                  required
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                />
+              </div>
+            </div>
+
+            {/* Grid: Fecha de Nacimiento y Teléfono */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Input: Fecha de Nacimiento (DatePicker) */}
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10">
+                  <Calendar size={20} />
+                </span>
+                <DatePicker
+                  selected={formData.birthday}
+                  onChange={onDateChange}
+                  placeholderText="Fecha de nacimiento"
+                  dateFormat="dd/MM/yyyy"
+                  showYearDropdown
+                  scrollableYearDropdown
+                  yearDropdownItemNumber={100}
+                  maxDate={new Date()}
+                  required
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                  wrapperClassName="w-full"
+                />
+              </div>
+
+              {/* Input: Teléfono */}
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Phone size={20} />
+                </span>
                 <input
                   type="tel"
-                  placeholder="Teléfono móvil"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={onChange}
+                  placeholder="Teléfono"
+                  required
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                />
+              </div>
+            </div>
+
+            {/* Input: Dirección (Full width) */}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Home size={20} />
+              </span>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={onChange}
+                placeholder="Dirección"
+                required
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+              />
+            </div>
+
+            {/* Grid: Contraseñas */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Input: Contraseña */}
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Lock size={20} />
+                </span>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={onChange}
+                  placeholder="Contraseña"
+                  required
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
                 />
               </div>
 
-              {/* Contraseña y Confirmar Contraseña */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Contraseña
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="Contraseña"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirmar contraseña
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="Confirmar contraseña"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none"
-                  />
-                </div>
+              {/* Input: Confirmar Contraseña */}
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Lock size={20} />
+                </span>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={onChange}
+                  placeholder="Confirmar contraseña"
+                  required
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                />
               </div>
-
-              <button
-                type="submit"
-                className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors"
-              >
-                Registrarse y confirmar
-              </button>
-
-              <p className="text-center text-gray-600">
-                ¿Ya tienes cuenta?{" "}
-                <button
-                  type="button"
-                  className="text-green-700 font-medium hover:underline"
-                >
-                  Regresar al inicio de sesión
-                </button>
-              </p>
-            </form>
-          </div>
-
-          {/* Right Column - Visual Section */}
-          <div className="relative h-[600px] bg-gray-100 rounded-3xl flex items-center justify-center">
-            <div className="bg-green-500 rounded-full px-8 py-4 flex items-center gap-3 shadow-lg">
-              <div className="w-10 h-10 bg-green-700 rounded-full flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={3}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </div>
-              <span className="text-3xl font-semibold text-green-900">link</span>
             </div>
-          </div>
+
+            {/* Submit Button (Full width) */}
+            <button
+              type="submit"
+              className="w-full px-6 py-3 text-base font-medium text-white bg-action rounded-lg hover:bg-action-hover hover:rounded-3xl duration-300 border border-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+            >
+              Registrarme
+            </button>
+          </form>
+
+          {/* Link a Login */}
+          <p className="text-center text-sm text-gray-600 mt-8">
+            ¿Ya tienes una cuenta?{" "}
+            <Link
+              to="/login"
+              className="font-medium text-black hover:underline"
+            >
+              Inicia sesión aquí
+            </Link>
+          </p>
         </div>
       </main>
     </div>

@@ -6,7 +6,13 @@ import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/404Page";
 import UserProfilePage from "../pages/UserDetails";
 import RegisterPage from "../pages/RegisterPage";
+<<<<<<< HEAD
 import HomeUser from "../pages/HomeUserPage";
+import HomeEnterprise from "../pages/HomeEnterprisePage";
+=======
+import HomeUserPage from "../pages/HomeUserPage";
+import RecordUserPage from "../pages/RecordUserPage";
+>>>>>>> c3a81d62b077b9066a9de77c2eb177b3d5c84355
 
 import { AuthContext } from "../context/AuthContext";
 
@@ -32,7 +38,13 @@ export const AppRouter = () => {
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/UserDetails" element={<UserProfilePage />} />
                         <Route path="/register" element={<RegisterPage />} />
+<<<<<<< HEAD
                         <Route path="/homeUser" element={<HomeUser />} /> 
+                        <Route path="/homeEnterprise" element={<HomeEnterprise />} />
+=======
+                        <Route path="/homeUser" element={<HomeUserPage />} />
+                        <Route path="/recordUser" element={<RecordUserPage />} />
+>>>>>>> c3a81d62b077b9066a9de77c2eb177b3d5c84355
                     </>
                 )}
                 
