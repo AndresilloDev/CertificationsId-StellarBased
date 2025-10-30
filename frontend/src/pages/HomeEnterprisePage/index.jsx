@@ -1,7 +1,7 @@
 import React from 'react';
 // Íconos del dashboard anterior
 import { AcademicCapIcon, BoltIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
-// Íconos de la nueva barra de navegación
+// Íconos de la nueva barra de navegación (Lucide)
 import { User, Share2, Home, FileText, Clock } from 'lucide-react';
 
 // Componente para las tarjetas de métricas (Número de certificados, categorías, etc.)
@@ -49,7 +49,7 @@ export default function CertificationsDashboard() {
         <nav className="flex items-center gap-6">
           {/* Botón ACTIVO para esta página (Dashboard/Certificados) */}
           <button className="flex items-center gap-2 text-sm font-semibold text-green-700 border-b-2 border-green-700 pb-1">
-            <FileText size={18} /> Emitir Certificado
+            <FileText size={18} /> Certificados
           </button>
           {/* Botón para la vista de Emisión (Tu index.jsx) */}
           <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-green-700">

@@ -1,5 +1,7 @@
 import React from 'react';
-import { UserCircleIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+// Importamos los íconos de Lucide para la topbar (UserCircleIcon ya no se usa del otro set)
+import { User, Share2, Home, FileText, Clock } from 'lucide-react'; 
 
 // Componente para la caja de carga de archivos (Drag and Drop)
 const FileUploadBox = () => {
@@ -45,44 +47,58 @@ export default function EmitCertificatePage() {
   return (
     <div className="min-h-screen bg-white">
       
-      {/* 1. HEADER: Copiado del dashboard con la clase 'Emitir certificado' marcada como activa */}
-      <header className="border border-gray-200 m-4 mx-auto max-w-7xl rounded-xl sticky top-4 bg-white/70 backdrop-blur-lg z-10">
-        <div className="mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <span className="text-xl font-semibold text-gray-800">LOGO</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <a href="#" className="px-4 py-2 text-sm font-medium text-white bg-green-700 rounded-lg hover:bg-green-800 duration-300">
-              Emitir certificado 
-            </a> {/* Clase bg-green-700 activa */}
-            <a href="#" className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-black duration-300">
-              Historial
-            </a>
-            <a href="#" className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-black duration-300">
-              Api
-            </a>
-            
-            <div role="separator" aria-orientation="vertical" className="h-6 w-px bg-gray-200 mx-2" />
-            
-            <div className="flex items-center gap-2 cursor-pointer">
-               <span className="text-sm font-medium text-gray-800">Stellar</span>
-               <UserCircleIcon className="w-8 h-8 text-gray-600" />
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* 1. HEADER: TOPBAR COMPLETA CON ESTILO DE DASHBOARD */}
+      <header className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-white sticky top-0 z-10 shadow-md">
+                <div className="flex items-center gap-2">
+                    {/* LOGO DE STELLAR */}
+                    <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                    <span className="text-2xl font-semibold text-gray-800">
+                        Stellar Certification Protocol
+                    </span>
+                </div>
+
+                <nav className="flex items-center gap-6">
+                    {/* Botón Certificados (Dashboard) */}
+          <button className="flex items-center gap-2 text-sm font-semibold text-green-700 border-b-2 border-green-700 pb-1">
+            <FileText size={18} /> Emitir certificado
+          </button>
+                    {/* Botón ACTIVO para esta página (Emitir) */}
+          <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-green-700">
+            <Clock size={18} /> Historial
+          </button>
+          <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-green-700">
+            <Share2 size={18} /> Api
+          </button>
+                    
+                    {/* Separador */}
+                    <div role="separator" aria-orientation="vertical" className="h-6 w-px bg-gray-200 mx-2" />
+                    
+                    {/* Perfil del Usuario */}
+                    <button className="flex items-center gap-2 text-sm font-medium text-gray-800 hover:text-green-700">
+                        <User size={18} /> Jariano
+                    </button>
+                    {/* Botón de Acción (Compartir o API) */}
+                    <button className="flex items-center gap-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-full transition-colors">
+                        <Share2 size={16} /> Compartir
+                    </button>
+                </nav>
+            </header>
 
       {/* 2. MAIN CONTENT: Formulario de Emisión */}
       <main className="max-w-7xl mx-auto px-6 py-12">
         
         <h1 className="text-4xl font-extrabold text-gray-900 mb-8">
-            Stellar
+            Emisión de Certificados
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-8">
             
             <h2 className="text-2xl font-semibold text-gray-800">
-                Certificar estudiante:
+                Certificar documento:
             </h2>
 
             {/* Layout de dos columnas para File Upload y Campos */}
