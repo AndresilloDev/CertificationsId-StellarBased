@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, User, Home, Phone, Calendar } from "lucide-react";
-import Header from "../../components/Header"; // Asumiendo esta ruta
+import { Mail, Lock, User, Home, Phone } from "lucide-react";
+import Header from "../../components/Header";
 import { useAuth } from "../../context/AuthContext";
-
-import DatePicker from "react-datepicker";
 
 export default function RegisterPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +10,6 @@ export default function RegisterPage() {
     email: "",
     firstName: "",
     lastName: "",
-    birthday: null,
     address: "",
     phone: "",
     password: "",
@@ -20,28 +17,29 @@ export default function RegisterPage() {
   });
 
   const navigate = useNavigate();
-
   const { register } = useAuth();
 
-  // Handler genérico para actualizar el estado
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handler específico para el DatePicker
-  const onDateChange = (date) => {
-    setFormData({ ...formData, birthday: date });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       console.error("Las contraseñas no coinciden");
       return;
     }
-    console.log("Registrando usuario con:", formData);
-    register(formData); 
-    navigate("/homeUser");
+    
+    const registerData = formData;
+
+    console.log("Registrando usuario con:", registerData);
+
+    try {
+      await register(registerData); 
+      navigate("/home"); 
+    } catch (error) {
+      console.error("Error en el registro:", error);
+    }
   };
 
   return (
@@ -116,9 +114,9 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Grid: Teléfono */}
+            {/* Grid: Teléfono (El bloque de fecha de nacimiento se ha ido) */}
             <div className="grid grid-cols-1 sm:grid-cols-1 gap-5">
-              {/* Input: Fecha de Nacimiento */}
+              {/* Input: Teléfono */}
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                   <Phone size={20} />
