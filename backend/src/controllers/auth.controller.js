@@ -21,7 +21,6 @@ const AuthController = {
             confirmPassword,
             firstName,
             lastName,
-            birthDate,
             phone,
             address
         } = req.body;
@@ -38,7 +37,6 @@ const AuthController = {
                 password,
                 firstName,
                 lastName,
-                birthDate,
                 phone,
                 address
             });

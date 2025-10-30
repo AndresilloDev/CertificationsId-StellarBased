@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, User, Home, Phone, Calendar } from "lucide-react";
-import Header from "../../components/Header";
+import Header from "../../components/Header"; // Asumiendo esta ruta
+import { useAuth } from "../../context/AuthContext";
 
 import DatePicker from "react-datepicker";
 
@@ -18,7 +19,11 @@ export default function RegisterPage() {
     confirmPassword: "",
   });
 
-  // Handler genérico para inputs de texto
+  const navigate = useNavigate();
+
+  const { register } = useAuth();
+
+  // Handler genérico para actualizar el estado
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -34,12 +39,9 @@ export default function RegisterPage() {
       console.error("Las contraseñas no coinciden");
       return;
     }
-    // El 'formData.birthday' será un objeto Date de JavaScript.
-    // Parala API (convertirlo a ISO string)
-    console.log("Registrando usuario con:", {
-      ...formData,
-      birthday: formData.birthday ? formData.birthday.toISOString() : null,
-    });
+    console.log("Registrando usuario con:", formData);
+    register(formData); 
+    navigate("/homeUser");
   };
 
   return (
@@ -114,29 +116,9 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Grid: Fecha de Nacimiento y Teléfono */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {/* Input: Fecha de Nacimiento (DatePicker) */}
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10">
-                  <Calendar size={20} />
-                </span>
-                <DatePicker
-                  selected={formData.birthday}
-                  onChange={onDateChange}
-                  placeholderText="Fecha de nacimiento"
-                  dateFormat="dd/MM/yyyy"
-                  showYearDropdown
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={100}
-                  maxDate={new Date()}
-                  required
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
-                  wrapperClassName="w-full"
-                />
-              </div>
-
-              {/* Input: Teléfono */}
+            {/* Grid: Teléfono */}
+            <div className="grid grid-cols-1 sm:grid-cols-1 gap-5">
+              {/* Input: Fecha de Nacimiento */}
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                   <Phone size={20} />
