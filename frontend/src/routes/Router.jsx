@@ -7,6 +7,7 @@ import NotFoundPage from "../pages/404Page";
 import UserProfilePage from "../pages/UserDetails";
 import RegisterPage from "../pages/RegisterPage";
 import HomeUser from "../pages/HomeUserPage";
+import HomeEnterprise from "../pages/HomeEnterprisePage";
 
 import { AuthContext } from "../context/AuthContext";
 
@@ -33,6 +34,7 @@ export const AppRouter = () => {
                         <Route path="/UserDetails" element={<UserProfilePage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/homeUser" element={<HomeUser />} /> 
+                        <Route path="/homeEnterprise" element={<HomeEnterprise />} />
                     </>
                 )}
                 
