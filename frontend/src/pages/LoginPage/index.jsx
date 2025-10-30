@@ -18,8 +18,6 @@ export default function LoginPage() {
     console.log("Iniciando sesión con:", { email, password });
     try {
       await login({ email, password });
-      console.log("Inicio de sesión exitoso");
-      navigate("/homeUser");
     } catch (error) {
       console.error("Error en inicio de sesión:", error);
     }

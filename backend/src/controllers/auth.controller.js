@@ -4,16 +4,20 @@ const AuthController = {
     login: async (req, res) => {
         const { email, password } = req.body;
         try {
-            let user = await AuthService.login(email, password);
-            if (!user) {
-                user = await AuthService.loginEnterprise(email, password);
-            }
+            const user = await AuthService.login(email, password);
             return res.status(200).json(user);
         } catch (error) {
-            return res.status(500).json({
-                message: "Error al iniciar sesión",
-                error: error.message,
-            });
+            try {
+                const enterprise = await AuthService.loginEnterprise(email, password);
+                console.log("Enterprise login successful:", enterprise);
+                return res.status(200).json(enterprise);
+            } catch (error) {
+                console.log(error);
+                return res.status(500).json({
+                    message: "Error al iniciar sesión",
+                    error: error.message,
+                });
+            }
         }
     },
 
