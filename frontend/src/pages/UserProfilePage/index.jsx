@@ -39,6 +39,15 @@ export default function UserProfile() {
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
+  // --- NUEVOS ESTADOS PARA LA CONTRASEÑA ---
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: ''
+  });
+  const [isSavingPassword, setIsSavingPassword] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
+  // ------------------------------------------
+
   useEffect(() => {
     if (user) {
       setFormData({
@@ -58,6 +67,16 @@ export default function UserProfile() {
       [name]: value
     }));
   };
+
+  // --- NUEVO MANEJADOR PARA CAMBIOS DE CONTRASEÑA ---
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+  // ------------------------------------------------
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,10 +111,45 @@ export default function UserProfile() {
     }
   };
 
-  const handlePasswordSubmit = (e) => {
+  // --- LÓGICA IMPLEMENTADA PARA ACTUALIZAR CONTRASEÑA ---
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    console.log('Contraseña actualizada');
+    
+    if (!passwordData.currentPassword || !passwordData.newPassword) {
+      setPasswordMessage({ type: 'error', text: 'Por favor, rellena ambos campos.' });
+      return;
+    }
+
+    setIsSavingPassword(true);
+    setPasswordMessage({ type: '', text: '' });
+
+    try {
+      // Asumimos un endpoint diferente para la contraseña, es una práctica común
+      const response = await fetch('/api/users/password', { 
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(passwordData) 
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al actualizar la contraseña');
+      }
+
+      setPasswordMessage({ type: 'success', text: '¡Contraseña actualizada con éxito!' });
+      // Limpiar campos tras el éxito
+      setPasswordData({ currentPassword: '', newPassword: '' }); 
+    } catch (error) {
+      setPasswordMessage({ type: 'error', text: error.message });
+    } finally {
+      setIsSavingPassword(false);
+    }
   };
+  // ----------------------------------------------------
 
   if (loading) {
     return (
@@ -184,31 +238,57 @@ export default function UserProfile() {
 
         <hr className="my-12 border-gray-200" />
 
+        {/* --- FORMULARIO DE CONTRASEÑA ACTUALIZADO --- */}
         <form onSubmit={handlePasswordSubmit} className="space-y-6">
           <h2 className="text-2xl font-semibold text-gray-800">Cambiar contraseña</h2>
+
+          {/* Mensaje de éxito/error para la contraseña */}
+          {passwordMessage.text && (
+            <div className={`p-4 rounded-lg ${
+              passwordMessage.type === 'success' 
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-red-100 text-red-800'
+            }`}>
+              {passwordMessage.text}
+            </div>
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <StyledInputField 
               label="Contraseña anterior" 
               id="currentPassword" 
               name="currentPassword" 
-              type="password" 
+              type="password"
+              // Conectado al estado y manejador
+              value={passwordData.currentPassword}
+              onChange={handlePasswordChange}
             />
             <StyledInputField 
               label="Contraseña nueva" 
               id="newPassword" 
               name="newPassword" 
-              type="password" 
+              type="password"
+              // Conectado al estado y manejador
+              value={passwordData.newPassword}
+              onChange={handlePasswordChange}
             />
           </div>
           <div className="flex justify-end pt-4">
             <button
               type="submit"
-              className="px-6 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 hover:rounded-3xl duration-300 transition-all border-none"
+              // Conectado al estado de carga de contraseña
+              disabled={isSavingPassword}
+              className={`
+                px-6 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg 
+                hover:bg-green-700 hover:rounded-3xl duration-300 transition-all border-none
+                ${isSavingPassword ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
             >
-              Actualizar Contraseña
+              {isSavingPassword ? 'Actualizando...' : 'Actualizar Contraseña'}
             </button>
           </div>
         </form>
+        {/* ------------------------------------------- */}
         
       </main>
     </div>

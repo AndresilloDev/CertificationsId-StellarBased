@@ -19,7 +19,7 @@ export default function LoginPage() {
     try {
       await login({ email, password });
       console.log("Inicio de sesión exitoso");
-      navigate("/homeUser");
+      navigate("/user/home");
     } catch (error) {
       console.error("Error en inicio de sesión:", error);
     }

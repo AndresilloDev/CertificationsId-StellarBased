@@ -1,20 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Header from "../../components/Header"; // Importamos el Header
+import Header from "../../components/Header";
 
 export const JoinUsPage = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para el Header
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Header consistente con LandingPage */}
             <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 
             <main className="max-w-7xl mx-auto px-6 py-12 md:py-16">
-                {/* Cambiamos el margen inferior a mb-16 md:mb-20 para más espaciado.
-                  Añadimos text-balance al h1 y text-lg al p para coincidir con LandingPage.
-                */}
                 <div className="text-center mb-16 md:mb-20">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-balance mb-4">
                         Únete a nosotros
@@ -25,10 +21,6 @@ export const JoinUsPage = () => {
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-                    {/* Plan de Estudiante */}
-                    {/* Usamos rounded-3xl y bg-gray-50 para coincidir con los contenedores de LandingPage.
-                      Aumentamos space-y-6 a space-y-8 para más aire dentro de la tarjeta.
-                    */}
                     <div className="bg-gray-50 rounded-3xl p-8 md:p-10 space-y-8">
                         <div className="space-y-3">
                             <div className="inline-block px-4 py-2 bg-action-hover text-white rounded-full text-sm font-medium text-gray-800">
@@ -37,7 +29,6 @@ export const JoinUsPage = () => {
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
                                 Plan Estudiante
                             </h2>
-                            {/* Ajustamos a text-lg y text-gray-700 para consistencia */}
                             <p className="text-lg text-gray-700 leading-relaxed">
                                 Perfecto para estudiantes que buscan verificar sus
                                 credenciales académicas
@@ -58,14 +49,13 @@ export const JoinUsPage = () => {
                                     "Actualizaciones automáticas",
                                 ].map((feature, index) => (
                                     <li key={index} className="flex items-start gap-3">
-                                        {/* Icono más sutil: w-5 h-5 y text-gray-500
-                                        */}
+
                                         <svg
                                             className="w-5 h-5 text-gray-500 flex-shrink-0 mt-1"
                                             fill="none"
                                             stroke="currentColor"
                                             viewBox="0 0 24 24"
-                                            strokeWidth={2.5} // Un trazo ligeramente más grueso para w-5
+                                            strokeWidth={2.5}
                                         >
                                             <path
                                                 strokeLinecap="round"
@@ -73,7 +63,6 @@ export const JoinUsPage = () => {
                                                 d="M5 13l4 4L19 7"
                                             />
                                         </svg>
-                                        {/* Texto de lista más suave: text-gray-600 */}
                                         <span className="text-gray-600">
                                             {feature}
                                         </span>
@@ -81,10 +70,6 @@ export const JoinUsPage = () => {
                                 ))}
                             </ul>
                         </div>
-
-                        {/* Botón CTA primario: Mantenemos bg-gray-900 
-                          Añadimos text-base font-medium para consistencia con LandingPage
-                        */}
                         <button
                             className="w-full mt-8 px-6 py-4 bg-action hover:bg-action-hover text-white rounded-2xl transition-colors text-base font-medium cursor-pointer"
                             onClick={() => navigate('/register')}
@@ -93,7 +78,6 @@ export const JoinUsPage = () => {
                         </button>
                     </div>
 
-                    {/* Plan Empresas */}
                     <div className="bg-gray-50 rounded-3xl p-8 md:p-10 space-y-8">
                         <div className="space-y-3">
                             <div className="inline-block px-4 py-2 bg-action-hover text-white rounded-full text-sm font-medium text-gray-800">
@@ -145,7 +129,7 @@ export const JoinUsPage = () => {
                         </div>
 
                         <button
-                            className="group w-full mt-8 px-6 py-4 bg-gray-900 bg-action hover:bg-action-hover text-white rounded-2xl transition-colors text-base font-medium flex items-center justify-center gap-3 cursor-pointer"
+                            className="group w-full mt-8 px-6 py-4 bg-action hover:bg-action-hover text-white rounded-2xl transition-colors text-base font-medium flex items-center justify-center gap-3 cursor-pointer"
                             onClick={() => navigate('/contact')}
                         >
                             <span>Contáctanos</span>

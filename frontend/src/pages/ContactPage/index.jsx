@@ -1,9 +1,21 @@
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { register } from "../../api/auth.api"
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { register } from "../../api/auth.api";
+import Header from "../../components/Header";
+import {
+  Mail,
+  Lock,
+  User,
+  Phone,
+  Building2,
+  BarChart,
+  MessageSquare,
+  ChevronDown,
+} from "lucide-react";
 
 export const ContactPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     enterpriseName: "",
     contactName: "",
@@ -12,15 +24,15 @@ export const ContactPage = () => {
     enterpriseSize: "",
     password: "",
     message: "",
-  })
+  });
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState("idle")
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState("idle");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus("idle")
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
 
     try {
       const enterprise = {
@@ -33,58 +45,55 @@ export const ContactPage = () => {
         message: formData.message,
         role: "enterprise",
         userType: "enterprise",
-      }
-      console.log("Enviando empresa:", enterprise)
+      };
+      console.log("Enviando empresa:", enterprise);
       const response = await register(enterprise);
 
-      setSubmitStatus("success")
-      console.log("Empresa registrada:", response.data)
+      setSubmitStatus("success");
+      console.log("Empresa registrada:", response.data);
+      // Opcional: Redirigir después de un éxito
+      // setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
-      console.error("Error al enviar formulario:", error)
-      setSubmitStatus("error")
+      console.error("Error al enviar formulario:", error);
+      setSubmitStatus("error");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Header */}
+      <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+
+      {/* Main Content */}
       <main className="max-w-4xl mx-auto px-6 py-12 md:py-16">
-        {/* Header */}
-        <div className="mb-8">
-          <div
-            className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors mb-6"
-            onClick={() => navigate(-1)}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            <span>Volver</span>
+        {/* Form Box - Estilo de RegisterPage */}
+        <div className="w-full max-w-2xl mx-auto p-8 md:p-10 border border-gray-200 rounded-xl bg-white">
+          {/* Title */}
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+              Contacto para Empresas
+            </h1>
+            <p className="text-base text-gray-600 mt-2">
+              Regístra tu empresa para empezar a certificar.
+            </p>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-balance mb-4">
-            Contacto Empresarial
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-            Cuéntanos sobre tu organización y nos pondremos en contacto contigo
-          </p>
-        </div>
-
-        {/* Form */}
-        <div className="bg-gray-50 rounded-3xl p-8 md:p-10">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Company Name */}
-            <div className="space-y-2">
-              <label htmlFor="enterpriseName" className="block font-medium text-gray-900">
-                Nombre de la empresa *
-              </label>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5 mt-8">
+            {/* Input: Nombre de la empresa */}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Building2 size={20} />
+              </span>
               <input
                 type="text"
                 id="enterpriseName"
@@ -92,16 +101,16 @@ export const ContactPage = () => {
                 required
                 value={formData.enterpriseName}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
-                placeholder="Tu Empresa S.A."
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                placeholder="Nombre de la empresa"
               />
             </div>
 
-            {/* Contact Name */}
-            <div className="space-y-2">
-              <label htmlFor="contactName" className="block font-medium text-gray-900">
-                Nombre de contacto *
-              </label>
+            {/* Input: Nombre de contacto */}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <User size={20} />
+              </span>
               <input
                 type="text"
                 id="contactName"
@@ -109,17 +118,18 @@ export const ContactPage = () => {
                 required
                 value={formData.contactName}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
-                placeholder="Juan Pérez"
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                placeholder="Nombre de contacto"
               />
             </div>
 
-            {/* Email and Phone */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="email" className="block font-medium text-gray-900">
-                  Email corporativo *
-                </label>
+            {/* Grid: Email y Contraseña */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Input: Email */}
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Mail size={20} />
+                </span>
                 <input
                   type="email"
                   id="email"
@@ -127,15 +137,16 @@ export const ContactPage = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
-                  placeholder="contacto@empresa.com"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                  placeholder="Email corporativo"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="password" className="block font-medium text-gray-900">
-                  Contraseña *
-                </label>
+              {/* Input: Contraseña */}
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Lock size={20} />
+                </span>
                 <input
                   type="password"
                   id="password"
@@ -143,54 +154,58 @@ export const ContactPage = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
-                  placeholder="********"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="phone" className="block font-medium text-gray-900">
-                  Teléfono
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
-                  placeholder="+34 600 000 000"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                  placeholder="Contraseña"
                 />
               </div>
             </div>
 
-            {/* Employee Count */}
-            <div className="space-y-2">
-              <label htmlFor="enterpriseSize" className="block font-medium text-gray-900">
-                Tamaño de la empresa *
-              </label>
+            {/* Input: Teléfono (Full width) */}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Phone size={20} />
+              </span>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+                placeholder="Teléfono (Opcional)"
+              />
+            </div>
+
+            {/* Input: Tamaño de la empresa (Select) */}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <BarChart size={20} />
+              </span>
               <select
                 id="enterpriseSize"
                 name="enterpriseSize"
                 required
                 value={formData.enterpriseSize}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+                className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200 appearance-none bg-white"
               >
-                <option value="">Selecciona una opción</option>
+                <option value="">Selecciona tamaño de empresa</option>
                 <option value="extra-small">1-10 empleados</option>
                 <option value="small">11-50 empleados</option>
                 <option value="medium">51-200 empleados</option>
                 <option value="large">201-500 empleados</option>
                 <option value="extra-large">Más de 500 empleados</option>
               </select>
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                <ChevronDown size={20} />
+              </span>
             </div>
 
-            {/* Message */}
-            <div className="space-y-2">
-              <label htmlFor="message" className="block font-medium text-gray-900">
-                Cuéntanos sobre tus necesidades *
-              </label>
+            {/* Input: Mensaje (Textarea) */}
+            <div className="relative">
+              <span className="absolute left-4 top-4 text-gray-400">
+                <MessageSquare size={20} />
+              </span>
               <textarea
                 id="message"
                 name="message"
@@ -198,62 +213,66 @@ export const ContactPage = () => {
                 value={formData.message}
                 onChange={handleChange}
                 rows={6}
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all resize-none"
-                placeholder="Describe qué tipo de certificados necesitas emitir, cuántos usuarios tendrás, y cualquier requisito específico..."
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200 resize-none"
+                placeholder="Cuéntanos sobre tus necesidades..."
               />
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button (Estilo RegisterPage) */}
             <button
               type="submit"
               disabled={isSubmitting || submitStatus === "success"}
-              className="w-full px-6 py-4 bg-gray-900 hover:bg-gray-800 disabled:bg-gray-400 text-white rounded-2xl transition-colors font-medium flex items-center justify-center gap-3"
+              className="w-full px-6 py-3 text-base font-medium text-white bg-action rounded-lg hover:bg-action-hover hover:rounded-3xl duration-300 border border-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 disabled:bg-gray-400"
             >
-              {isSubmitting ? (
-                <>
-                  <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  <span>Enviando...</span>
-                </>
-              ) : submitStatus === "success" ? (
-                <>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span>¡Mensaje enviado!</span>
-                </>
-              ) : (
-                <>
-                  <span>Enviar mensaje</span>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </>
-              )}
+              {isSubmitting
+                ? "Enviando..."
+                : submitStatus === "success"
+                ? "¡Enviado con éxito!"
+                : "Enviar mensaje"}
             </button>
 
-            {/* Success Message */}
+            {/* Success Message (Estilo adaptado) */}
             {submitStatus === "success" && (
-              <div className="p-4 bg-green-50 border border-green-200 rounded-2xl">
-                <p className="text-green-800 text-center">
-                  Gracias por tu interés. Nos pondremos en contacto contigo en las próximas 24 horas.
+              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-green-800 text-center text-sm">
+                  Gracias por tu interés. Nos pondremos en contacto contigo en las
+                  próximas 24 horas.
+                </p>
+              </div>
+            )}
+            
+            {/* Error Message */}
+             {submitStatus === "error" && (
+              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-800 text-center text-sm">
+                  Hubo un error al enviar tu mensaje. Inténtalo de nuevo.
                 </p>
               </div>
             )}
           </form>
+
+          {/* Link a Login */}
+          <p className="text-center text-sm text-gray-600 mt-8">
+            ¿Ya tienes una cuenta de empresa?{" "}
+            <Link
+              to="/login"
+              className="font-medium text-black hover:underline"
+            >
+              Inicia sesión aquí
+            </Link>
+          </p>
         </div>
 
-        {/* Additional Info */}
+        {/* Additional Info (Se mantiene igual) */}
         <div className="mt-12 grid md:grid-cols-3 gap-6">
           <div className="bg-gray-50 rounded-2xl p-6 space-y-2">
             <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center mb-3">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-5 h-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -268,7 +287,12 @@ export const ContactPage = () => {
 
           <div className="bg-gray-50 rounded-2xl p-6 space-y-2">
             <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center mb-3">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-5 h-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -283,7 +307,12 @@ export const ContactPage = () => {
 
           <div className="bg-gray-50 rounded-2xl p-6 space-y-2">
             <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center mb-3">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-5 h-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -298,5 +327,5 @@ export const ContactPage = () => {
         </div>
       </main>
     </div>
-  )
-}
+  );
+};

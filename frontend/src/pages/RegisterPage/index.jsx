@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, User, Home, Phone } from "lucide-react";
+import { Mail, Lock, User, Home, Phone, Key } from "lucide-react"; // 1. Ícono 'Key' importado
 import Header from "../../components/Header";
 import { useAuth } from "../../context/AuthContext";
 
@@ -12,6 +12,8 @@ export default function RegisterPage() {
     lastName: "",
     address: "",
     phone: "",
+    alias: "", // 2. Añadido
+    publicKey: "", // 2. Añadido
     password: "",
     confirmPassword: "",
   });
@@ -29,14 +31,14 @@ export default function RegisterPage() {
       console.error("Las contraseñas no coinciden");
       return;
     }
-    
+
     const registerData = formData;
 
     console.log("Registrando usuario con:", registerData);
 
     try {
-      await register({...registerData, userType: "user" }); 
-      navigate("/user/home"); 
+      await register({ ...registerData, userType: "user" });
+      navigate("/user/home");
     } catch (error) {
       console.error("Error en el registro:", error);
     }
@@ -114,7 +116,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Grid: Teléfono (El bloque de fecha de nacimiento se ha ido) */}
+            {/* Grid: Teléfono */}
             <div className="grid grid-cols-1 sm:grid-cols-1 gap-5">
               {/* Input: Teléfono */}
               <div className="relative">
@@ -148,6 +150,42 @@ export default function RegisterPage() {
                 className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
               />
             </div>
+
+            {/* 3. INICIO DE CAMPOS NUEVOS */}
+
+            {/* Input: Alias (Full width) */}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <User size={20} />
+              </span>
+              <input
+                type="text"
+                name="alias"
+                value={formData.alias}
+                onChange={onChange}
+                placeholder="Alias"
+                required
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+              />
+            </div>
+
+            {/* Input: Llave Pública (Full width) */}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Key size={20} />
+              </span>
+              <input
+                type="text"
+                name="publicKey"
+                value={formData.publicKey}
+                onChange={onChange}
+                placeholder="Llave pública"
+                required
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50 transition duration-200"
+              />
+            </div>
+
+            {/* 3. FIN DE CAMPOS NUEVOS */}
 
             {/* Grid: Contraseñas */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
