@@ -35,7 +35,7 @@ export default function RegisterPage() {
     console.log("Registrando usuario con:", registerData);
 
     try {
-      await register(registerData); 
+      await register({...registerData, userType: "user" }); 
       navigate("/home"); 
     } catch (error) {
       console.error("Error en el registro:", error);

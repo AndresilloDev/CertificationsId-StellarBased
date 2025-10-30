@@ -23,29 +23,16 @@ export default function Header() {
                 {/* Navegación de Escritorio (Ahora con <Link>) */}
                 <div className="hidden md:flex items-center gap-3">
                     <Link
-                        to="/contact"
-                        className="px-6 py-2.5 text-sm font-medium text-black bg-secondary rounded-lg hover:bg-secondary-hover hover:rounded-3xl duration-300 border border-border w-full sm:w-auto text-center"
+                        to="/joinus"
+                        className="px-6 py-2.5 text-sm font-medium text-white bg-action rounded-lg hover:bg-action-hover hover:rounded-3xl duration-300 border border-none w-full sm:w-auto text-center"
                     >
-                        Contáctanos
+                        Únete gratis
                     </Link>
-
-                    <div
-                        role="separator"
-                        aria-orientation="vertical"
-                        className="h-6 my-auto w-px bg-gray-200 mx-2"
-                    />
-
                     <Link
                         to="/login"
                         className="px-6 py-2.5 text-sm font-medium text-black bg-secondary rounded-lg hover:bg-secondary-hover hover:rounded-3xl duration-300 border border-border w-full sm:w-auto text-center"
                     >
                         Inicia sesión
-                    </Link>
-                    <Link
-                        to="/register"
-                        className="px-6 py-2.5 text-sm font-medium text-white bg-action rounded-lg hover:bg-action-hover hover:rounded-3xl duration-300 border border-none w-full sm:w-auto text-center"
-                    >
-                        Regístrate
                     </Link>
                 </div>
 

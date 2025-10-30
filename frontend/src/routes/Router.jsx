@@ -6,18 +6,16 @@ import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/404Page";
 import UserProfilePage from "../pages/UserDetails";
 import RegisterPage from "../pages/RegisterPage";
-<<<<<<< HEAD
-import HomeUser from "../pages/HomeUserPage";   
-=======
 import HomeEnterprise from "../pages/HomeEnterprisePage";
 import HomeUserPage from "../pages/HomeUserPage";
 import RecordUserPage from "../pages/RecordUserPage";
 import GuiaApi from "../pages/GuiaApi";
 import Certificates from "../pages/IssueCertificates";
 import HomeUser from "../pages/HomeUserPage";
->>>>>>> 1f15c12fa8eab1121054dfe7eae1f7acee83835a
 
 import { useAuth } from "../context/AuthContext";
+import { JoinUsPage } from "../pages/JoinUsPage";
+import { ContactPage } from "../pages/ContactPage";
 
 export const AppRouter = () => {
     const { user } = useAuth();
@@ -39,8 +37,14 @@ export const AppRouter = () => {
                 {!isLoggedIn && (
                     <>
                         <Route path="/" element={<LandingPage />} />
+
+                        {/** Autenticación */}
                         <Route path="/login" element={<LoginPage />} />
+                        <Route path="/joinus" element={<JoinUsPage />} />
                         <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/contact" element={<ContactPage />} />
+
+
                         <Route path="/homeEnterprise" element={<HomeEnterprise />} />
                         <Route path="/homeUser" element={<HomeUserPage />} />
                         <Route path="/recordUser" element={<RecordUserPage />} />
